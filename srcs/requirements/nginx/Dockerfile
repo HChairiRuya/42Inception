@@ -1,17 +1,24 @@
-# A dockerfile must always start by importing the base image.
-# We use the keyword 'FROM' to do that.
-# In our example, we want import the python image.
-# So we write 'python' for the image name and 'latest' for the version.
-FROM python:latest
+# Specify the base image
+FROM debian:buster 
 
-# In order to launch our python code, we must import it into our image.
-# We use the keyword 'COPY' to do that.
-# The first parameter 'main.py' is the name of the file on the host.
-# The second parameter '/' is the path where to put the file on the image.
-# Here we put the file at the image root folder.
-COPY main.py /
+# Update package lists
+RUN apt update && apt install -y \
+    openssl \
+    curl \
+    vim \
+    nginx
 
-# We need to define the command to launch when we are going to run the image.
-# We use the keyword 'CMD' to do that.
-# The following command will execute "python ./main.py".
-CMD [ "python", "./main.py" ]
+# Create SSL directory (if not created)
+RUN mkdir -p /etc/nginx/ssl
+
+# Generate SSL certificate and key without a password
+RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=MR/ST=IDF/L=TETOUAN/O=1337/OU=1337/CN=hchairi.42.fr/UID=hchairi"
+
+# Copy your custom NGINX configuration file
+COPY ./conf/nginx.conf /etc/nginx/conf.d/
+
+# Expose port 80 for HTTP traffic (you can also expose 443 for HTTPS if needed)
+EXPOSE 80
+
+# Start NGINX in the foreground
+CMD ["nginx", "-g", "daemon off;"]
