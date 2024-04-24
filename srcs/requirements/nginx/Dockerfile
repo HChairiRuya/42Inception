@@ -18,7 +18,7 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/ngin
 COPY ./conf/nginx.conf /etc/nginx/conf.d/
 
 # Expose port 80 for HTTP traffic (you can also expose 443 for HTTPS if needed)
-EXPOSE 80
+EXPOSE 443
 
 # Start NGINX in the foreground
 CMD ["nginx", "-g", "daemon off;"]
