@@ -1,0 +1,44 @@
+# Base Image:
+FROM debian:bookworm
+
+# Update and Install Packages:
+RUN apt update -y && apt install -y \
+     vim \
+     wget \
+     php8.2 \
+     php-fpm \
+     php-mysql \
+     mariadb-client 
+
+EXPOSE 9000
+
+# FOR TEST PURPOSE
+# EXPOSE 8080
+
+# Download WordPress:  file compresser
+RUN wget https://wordpress.org/latest.tar.gz -P /var/www
+
+# on le décompresser 
+RUN  cd /var/www && tar -xzvf latest.tar.gz && rm latest.tar.gz
+
+# Change Ownership: (root)
+RUN  chown -R root:root /var/www/wordpress
+
+# Install WP-CLI (WordPress Command Line Interface):
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+     && chmod +x wp-cli.phar \
+     && mv wp-cli.phar /usr/local/bin/wp
+
+#  # = separator
+RUN sed -i 's#listen = /run/php/php8.2-fpm.sock#listen = 0.0.0.0:9000#' /etc/php/8.2/fpm/pool.d/www.conf
+
+# Copier le script setup_wp_config.sh dans le conteneur
+COPY ./tools/setup_wp_config.sh /usr/local/bin/
+
+# Donner les permissions d'exécution au script
+RUN chmod +x /usr/local/bin/setup_wp_config.sh
+
+CMD [ "/usr/sbin/php-fpm8.2", "-F" ]
+
+# Exécuter le script au démarrage du conteneur
+ENTRYPOINT [ "sh", "/usr/local/bin/setup_wp_config.sh" ]
