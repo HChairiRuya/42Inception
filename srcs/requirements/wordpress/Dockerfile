@@ -12,9 +12,6 @@ RUN apt update -y && apt install -y \
 
 EXPOSE 9000
 
-# FOR TEST PURPOSE
-# EXPOSE 8080
-
 # Download WordPress:  file compresser
 RUN wget https://wordpress.org/latest.tar.gz -P /var/www
 
@@ -40,5 +37,5 @@ RUN chmod +x /usr/local/bin/setup_wp_config.sh
 
 CMD [ "/usr/sbin/php-fpm8.2", "-F" ]
 
-# Exécuter le script au démarrage du conteneur
+# # Exécuter le script au démarrage du conteneur
 ENTRYPOINT [ "sh", "/usr/local/bin/setup_wp_config.sh" ]
