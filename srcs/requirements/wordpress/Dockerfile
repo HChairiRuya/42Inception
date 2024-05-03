@@ -10,6 +10,8 @@ RUN apt update -y && apt install -y \
      php-mysql \
      mariadb-client 
 
+RUN mkdir -p /run/php
+
 EXPOSE 9000
 
 # Download WordPress:  file compresser
@@ -17,9 +19,6 @@ RUN wget https://wordpress.org/latest.tar.gz -P /var/www
 
 # on le décompresser 
 RUN  cd /var/www && tar -xzvf latest.tar.gz && rm latest.tar.gz
-
-# Change Ownership: (root)
-RUN  chown -R root:root /var/www/wordpress
 
 # Install WP-CLI (WordPress Command Line Interface):
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
