@@ -1,3 +1,4 @@
+
 # Base Image:
 FROM debian:bookworm
 
@@ -33,6 +34,8 @@ COPY ./tools/setup_wp_config.sh /usr/local/bin/
 
 # Donner les permissions d'exécution au script
 RUN chmod +x /usr/local/bin/setup_wp_config.sh
+
+WORKDIR /var/www/wordpress
 
 CMD [ "/usr/sbin/php-fpm8.2", "-F" ]
 
