@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mariadb:
+    container_name: mariadb
+    volumes:                  
+      - mariadb_volume:/var/lib/mysql
+    build: 
+      context: requirements/mariadb  # The directory where the Dockerfile is located
+    restart: always
+    env_file: .env
+    ports:
+      - "3306:3306"
+
+volumes:
+  mariadb_volume:
+    name: mariadb_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/hchairi/data/mariadb_d_volume

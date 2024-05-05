@@ -26,7 +26,6 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
      && chmod +x wp-cli.phar \
      && mv wp-cli.phar /usr/local/bin/wp
 
-#  # = separator
 RUN sed -i 's#listen = /run/php/php8.2-fpm.sock#listen = 0.0.0.0:9000#' /etc/php/8.2/fpm/pool.d/www.conf
 
 # Copier le script setup_wp_config.sh dans le conteneur
@@ -37,7 +36,8 @@ RUN chmod +x /usr/local/bin/setup_wp_config.sh
 
 WORKDIR /var/www/wordpress
 
+# lance php-fpm 
 CMD [ "/usr/sbin/php-fpm8.2", "-F" ]
 
-# # Exécuter le script au démarrage du conteneur
+# Exécuter le script au démarrage du conteneur
 ENTRYPOINT [ "sh", "/usr/local/bin/setup_wp_config.sh" ]
