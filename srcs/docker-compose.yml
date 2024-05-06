@@ -1,16 +1,44 @@
-version: '3.8'
+# version: '3.8' 
 
 services:
   mariadb:
     container_name: mariadb
     volumes:                  
       - mariadb_volume:/var/lib/mysql
+    networks:
+      - inception
     build: 
       context: requirements/mariadb  # The directory where the Dockerfile is located
     restart: always
-    env_file: .env
+    # env_file: .env
+
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    networks:
+      - inception
+    build:
+      context: requirements/wordpress
+    restart: always
+    # env_file: .env
+
+  nginx:
+    container_name: nginx
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    networks:
+      - inception
+    build:
+      context: requirements/nginx
+    restart: always
+    # env_file: .env
     ports:
-      - "3306:3306"
+      - "443:443"
 
 volumes:
   mariadb_volume:
@@ -20,3 +48,15 @@ volumes:
       type: none
       o: bind
       device: /home/hchairi/data/mariadb_d_volume
+  
+  wordpress_volume:
+    name: wordpress_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind 
+      device: /home/hchairi/data/wordpress_d_volume
+
+networks:
+  inception:
+    driver: bridge
