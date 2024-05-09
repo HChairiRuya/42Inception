@@ -10,7 +10,7 @@ services:
     build: 
       context: requirements/mariadb  # The directory where the Dockerfile is located
     restart: always
-    # env_file: .env
+    env_file: .env
 
   wordpress:
     container_name: wordpress
@@ -23,7 +23,7 @@ services:
     build:
       context: requirements/wordpress
     restart: always
-    # env_file: .env
+    env_file: .env
 
   nginx:
     container_name: nginx
@@ -36,7 +36,7 @@ services:
     build:
       context: requirements/nginx
     restart: always
-    # env_file: .env
+    env_file: .env
     ports:
       - "443:443"
 

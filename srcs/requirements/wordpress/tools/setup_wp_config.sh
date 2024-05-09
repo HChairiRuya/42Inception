@@ -4,22 +4,24 @@
 if [ ! -f "wp-config.php" ]; then
     echo "Creating wp-config.php..."
 # Créer le fichier de configuration wp-config.php
+    sleep 5
 	wp config create --allow-root \
-        --dbname="TEST_DATABASE" \
-        --dbuser="TEST_USER" \
-        --dbpass="TEST_PASS" \
+        --dbname=$DB_NAME \
+        --dbuser=$DB_USER \
+        --dbpass=$DB_PASS \
         --dbhost="mariadb:3306" --path='/var/www/wordpress'
 
         wp core install --allow-root \
-        --url="TEST_URL" \
-        --title="TEST_TITLE" \
-        --admin_user="TEST_ADMIN_USER" \
-        --admin_password="TEST_ADMIN_PASS" \
-        --admin_email="TEST_ADMIN_EMAIL"
+        --url=$URL \
+        --title=$TITTLE \
+        --admin_user=$ADMIN_USER \
+        --admin_password=$ADMIN_PASS \
+        --admin_email=$ADMIN_EMAIL
 
-        # wp user create --allow-root \
-        # $WP_SECOND_USER \
-        # $WP_SECOND_USER_MAIL \
-        # --user_pass=$WP_SECOND_USER_PASS
+        wp user create --allow-root \
+        $USER_TWO $USER_TWO_EMAIL \
+        --user_pass=$USER_TWO_PASS
+
+        echo "Wordpress Configured Successfully!"
 fi
 exec "$@"
