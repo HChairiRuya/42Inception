@@ -1,7 +1,20 @@
+# Beginning of the configuration for the MySQL server.
 [mysqld]
+
+# Directory where MySQL stores its data files.
 	datadir = /var/lib/mysql
+
+# Unix socket file used for local connections.
 	socket  = /run/mysqld/mysqld.sock
+
+# IP address MySQL will listen on for incoming connections.
 	bind-address= 0.0.0.0
+
+# Port number MySQL will listen on for incoming connections.
 	port = 3306
+
+# User account under which the MySQL server process will run
 	user = mysql
+
+# Location of the file where MySQL will write its process ID (PID).
 	pid-file = /run/mysqld/mysqld.pid

@@ -13,6 +13,11 @@ GENERATE_PASSWORD_CMD := openssl rand -base64 20
 $(D_SECRETS)/%.txt: | $(D_SECRETS)
 	$(GENERATE_PASSWORD_CMD) > $@
 
+
+# Generate symlinks without extension
+$(D_SECRETS)/%: $(D_SECRETS)/%.txt
+	ln -s $< $@
+
 # Targets
 all: generate_passwords build run
 
@@ -40,6 +45,7 @@ fclean: clean
 re: stop clean build run
 
 generate_passwords: $(patsubst %,$(D_SECRETS)/%.txt, db_password admin_password user_password)
+
 
 $(D_SECRETS):
 	@mkdir -p $@

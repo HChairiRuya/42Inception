@@ -31,6 +31,8 @@ RUN sed -i 's#listen = /run/php/php8.2-fpm.sock#listen = 0.0.0.0:9000#' /etc/php
 # Copier le script setup_wp_config.sh dans le conteneur
 COPY ./tools/setup_wp_config.sh /usr/local/bin/
 
+WORKDIR /run/secrets
+
 # Donner les permissions d'exécution au script
 RUN chmod +x /usr/local/bin/setup_wp_config.sh
 

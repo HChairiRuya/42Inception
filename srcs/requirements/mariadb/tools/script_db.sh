@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DB_PASS_CONTENT=$(shell cat ./secrets/db_password.txt)
+DB_PASS_CONTENT=$(cat "$DB_PASS_FILE")
 
 service mariadb start;
 

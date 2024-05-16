@@ -1,8 +1,8 @@
 # #!/bin/bash
 
-DB_PASS_CONTENT=$(shell cat ./secrets/db_password.txt)
-ADMIN_PASS_CONTENT=$(shell cat ./secrets/admin_password.txt)
-USER_PASS_CONTENT=$(shell cat ./secrets/user_password.txt)
+DB_PASS_CONTENT=$(cat "$DB_PASS_FILE")
+ADMIN_PASS_CONTENT=$(cat "$ADMIN_PASS_FILE")
+USER_PASS_CONTENT=$(cat "$USER_PASS_FILE")
 
 
 # Vérifier si le fichier wp-config.php existe déjà

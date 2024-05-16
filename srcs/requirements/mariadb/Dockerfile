@@ -1,6 +1,7 @@
 FROM debian:bookworm
 
 RUN apt update -y && apt install -y \
+    vim \
     mariadb-client \
     mariadb-server 
 

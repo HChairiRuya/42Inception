@@ -8,9 +8,13 @@ services:
     networks:
       - inception
     build: 
-      context: requirements/mariadb  # The directory where the Dockerfile is located
+      context: requirements/mariadb
     restart: always
     env_file: .env
+    secrets:
+      - db_password
+      - admin_password
+      - user_password
 
   wordpress:
     container_name: wordpress
@@ -24,6 +28,10 @@ services:
       context: requirements/wordpress
     restart: always
     env_file: .env
+    secrets:
+      - db_password
+      - admin_password
+      - user_password
 
   nginx:
     container_name: nginx
@@ -39,6 +47,33 @@ services:
     env_file: .env
     ports:
       - "443:443"
+
+  adminer:
+    container_name: adminer
+    depends_on:
+      - mariadb
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    networks:
+      - inception
+    build:
+      context: requirements/bonus/adminer
+    restart: always
+    env_file: .env
+    ports:
+      - "8080:8080"
+
+
+  simple_page:
+    container_name: website
+    networks:
+      - inception
+    build:
+      context: requirements/bonus/simple_page
+    restart: always
+    env_file: .env
+    ports:
+      - "80:80"
 
 volumes:
   mariadb_volume:
@@ -60,3 +95,11 @@ volumes:
 networks:
   inception:
     driver: bridge
+
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  admin_password:
+    file: ../secrets/admin_password.txt
+  user_password:
+    file: ../secrets/user_password.txt
