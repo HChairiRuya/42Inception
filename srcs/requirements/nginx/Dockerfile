@@ -1,7 +1,7 @@
-# Specify the base image
+# Base Image
 FROM debian:bookworm 
 
-# Update package lists
+# Update and Install Packages
 RUN apt update && apt install -y \
     openssl \
     curl \

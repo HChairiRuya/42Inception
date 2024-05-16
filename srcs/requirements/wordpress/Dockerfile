@@ -1,8 +1,7 @@
-
-# Base Image:
+# Base Image
 FROM debian:bookworm
 
-# Update and Install Packages:
+# Update and Install Packages
 RUN apt update -y && apt install -y \
      vim \
      wget \
@@ -15,7 +14,7 @@ RUN mkdir -p /run/php
 
 EXPOSE 9000
 
-# Download WordPress:  file compresser
+# Download WordPress: "file compresser"
 RUN wget https://wordpress.org/latest.tar.gz -P /var/www
 
 # on le décompresser 
