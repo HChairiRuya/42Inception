@@ -19,4 +19,4 @@ mysql -e "FLUSH PRIVILEGES;"
 kill $(cat /var/run/mysqld/mysqld.pid)
 
 mysqld
-# cmd qui restart mariadb in forground after killed in background
+# cmd that restart mariadb in forground after killed in background

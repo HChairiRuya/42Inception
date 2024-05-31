@@ -1,5 +1,4 @@
-FROM php:latest
-
+FROM php:7
 # Update packages and install wget
 RUN apt update && apt install -y wget
 
@@ -12,7 +11,7 @@ RUN mkdir -p /var/www/html
 # Download Adminer
 RUN wget https://www.adminer.org/latest.php -O /var/www/html/adminer.php
 
-# Expose port 80
+# Expose port 8080
 EXPOSE 8080
 
 # Set working directory
